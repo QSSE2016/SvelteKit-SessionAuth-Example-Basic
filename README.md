@@ -1,42 +1,21 @@
-# sv
+# SvelteKit Session (Stateful) Auth using Cookies
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is a small app to showcase how you can implement session based auth in SvelteKit. In general there are two types of auth:
+- Stateful (Sessions, e.g Cookies + Server)
+- Stateless (JWT, refresh tokens) - Completely different architecture/idea
 
-## Creating a project
+*Auth: Authentication and Authorization*
 
-If you're seeing this, you've probably already done this step. Congrats!
+Both have their upsides and downsides and this app chooses the first as it's pretty simple to implement. **The basic idea is this:**
+1. User logs in
+2. If user has entered correct information, server approves, generates a session (creates sessionID) and sends back a sessionID
+3. Cookie gets set with that sessionID
+4. On any requests, under specific routes (that you choose), cookies are checked to see if there is a cookie with a valid sessionID
+5. If yes, user is authenticated and can access whatever route they are trying to access.
+6. If not, user is redirected back to login.
 
-```sh
-# create a new project
-npx sv create my-app
-```
+Obviously cookies at some point time out (in this case after an hour) and are no longer valid/are deleted. You will find relevant comments on the server.js file about how expired session IDs are typically handled. For the sake of this example app, a fake in-memory "database" is used and I just have a background job (setInterval) cleaning up any expired sessionIDs.
 
-To recreate this project with the same configuration:
+That's about it really, feel free to look at the code or even try to recreate it yourself for the best possible learning experience. I hope this helps someone who was confused about how auth works or how to implement it.
 
-```sh
-# recreate this project
-npx sv@0.15.1 create --template minimal --types ts --install npm todo-app-with-login
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+_PS: In real apps your users will be able to manually log out. You should get rid of the corresponding session. In this example, manually logging out isn't implemented so I don't do that, but yeah, should be trivial to implement._
