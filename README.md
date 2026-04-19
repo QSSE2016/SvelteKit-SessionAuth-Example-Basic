@@ -18,4 +18,5 @@ Obviously cookies at some point time out (in this case after an hour) and are no
 
 That's about it really, feel free to look at the code or even try to recreate it yourself for the best possible learning experience. I hope this helps someone who was confused about how auth works or how to implement it.
 
-_PS: In real apps your users will be able to manually log out. You should get rid of the corresponding session. In this example, manually logging out isn't implemented so I don't do that, but yeah, should be trivial to implement._
+_PS: In real apps your users will be able to manually log out. You should get rid of the corresponding session. In this example, manually logging out isn't implemented so I don't do that, but yeah, should be trivial to implement.
+**Also a bit more important, but the logic in the backend for cleaning up sessions is backwards. It should be ">" instead of "<" but I'm too lazy to change it. The overall structure is correct, but that's just a small hiccup I should probably mention.**_
